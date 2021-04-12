@@ -27,7 +27,24 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                              h3("Output"),
                              verbatimTextOutput(outputId = "txtout")
                            ) # mainpanel end
-                  ) # tabpanel end
+                  ),
+                  tabPanel("Complementary DNA",
+                           #input
+                           sidebarPanel(
+                             tags$h3("Input:"),
+                             textAreaInput("dna", "Introduce your DNA chain"),
+                           ),#sidebar panel end
+                           #description
+                           mainPanel(
+                             h1("Description"),
+                             "Introduce a DNA chain to get its complementary",
+                             
+                             #OUTPUT
+                             h3("Output:"),
+                             textOutput("compl")
+                           ) #mainPanel ends
+                           
+                           )# tabpanel end
                 ) # navbarPage end
 ) # fluidPage end
 
@@ -40,6 +57,12 @@ server <- function(input, output) {
     rna = paste(nucleotides, collapse = "")
     return(rna)
     })
+  
+  output$compl <- renderText({
+    lookup <- c("A" = "T", "T" = "A", "G" = "C", "C" = "G")
+    dna_split <- strsplit(input$dna, "")[[1]]
+    dna_complement <- paste0(lookup[dna_split], collapse = "")
+  })
 } #server end
 
 
