@@ -1,14 +1,9 @@
 # Load R packages
-
-if (!"2021_group_09_rpackage" %in% rownames(installed.packages())){
-  library(devtools)
-  install_github("rforbiodatascience21/2021_group_09_rpackage")
-}
+library(devtools)
 library(lab08aSimpleRpackage)
 library(shiny)
 library(shinythemes)
 library(tidyverse)
-
 
 
 # Define UI
@@ -41,8 +36,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                            #input
                            sidebarPanel(
                              tags$h3("Input:"),
-                             textAreaInput("dna", "Introduce your DNA chain"),
-                             fileInput("upload_dna", NULL, accept = "text/plain")
+                             textAreaInput("dna", "Introduce your DNA chain")
                            ),#sidebar panel end
                            #description
                            mainPanel(
@@ -105,20 +99,21 @@ ui <- fluidPage(theme = shinytheme("flatly"),
 
 # SERVER
 server <- function(input, output) {
-  
+  # Random RNA tab #
   output$txtout <-  renderText({
-    
     nucleotides <- sample(c("A", "U", "G", "C"), size = input$rna_length, replace = TRUE)
     rna = paste(nucleotides, collapse = "")
     return(rna)
     })
   
+  # Complementary DNA tab #
   output$compl <- renderText({
     lookup <- c("A" = "T", "T" = "A", "G" = "C", "C" = "G", "a" = "T", "t" = "A", "g" = "C", "c" = "G")
     dna_split <- strsplit(input$dna, "")[[1]]
     dna_complement <- paste0(lookup[dna_split], collapse = "")
   })
   
+  # DNA modifier tab #
   ### Generate random DNA
   observeEvent(input$genDNA,{
     updateTextAreaInput(inputId="dna_input",
@@ -169,7 +164,7 @@ server <- function(input, output) {
   })
   
 
-
+  # Make codons tab #
   output$mk_codons <- renderText({
     s = as.integer(input$mk_codons_start)
     l = nchar(input$mk_codons_dna)
