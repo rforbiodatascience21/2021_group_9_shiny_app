@@ -74,10 +74,8 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               h2("Translate codons to AA"),
                               wellPanel(textOutput("AA"))
                               
-                              )#end of the tabpanel
-                           #mainPanel ends
-                           
-                           ), # tabpanel end
+                              ),#end of the tabpanel
+
                   tabPanel("Make Codons",
                            sidebarPanel(
                              tags$h3("Input:"),
@@ -93,7 +91,8 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                            ) # mainPanel
                            
                   ) # Navbar 3, tabPanel
-                ) # navbarPage end
+                )
+              ) # navbarPage end
 
 
 # SERVER
@@ -158,7 +157,7 @@ server <- function(input, output) {
                         "GTC" = "V", "GCC" = "A", "GAC" = "D", "GGC" = "G",
                         "GTA" = "V", "GCA" = "A", "GAA" = "E", "GGA" = "G",
                         "GTG" = "V", "GCG" = "A", "GAG" = "E", "GGG" = "G")
-    aa <- paste0(std_code_table[input$codons], collapse = "")
+    aa <- paste0(std_code_table[codons()], collapse = "")
   })
   
 
