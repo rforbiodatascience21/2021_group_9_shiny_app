@@ -46,4 +46,6 @@ server <- function(input, output) {
 # Create Shiny object
 shinyApp(ui = ui, server = server)
 
+library(rsconnect)
 
+rsconnect::deployApp('/cloud/project/R/app.R')
