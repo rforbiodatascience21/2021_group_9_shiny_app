@@ -78,6 +78,7 @@ server <- function(input, output) {
     dna_split <- strsplit(input$dna, "")[[1]]
     dna_complement <- paste0(lookup[dna_split], collapse = "")
   })
+  
   output$mk_codons <- renderText({
     s = as.integer(input$mk_codons_start)
     l = nchar(input$mk_codons_dna)
@@ -93,6 +94,3 @@ server <- function(input, output) {
 # Create Shiny object
 shinyApp(ui = ui, server = server)
 
-library(rsconnect)
-
-rsconnect::deployApp('/cloud/project/R/app.R')
