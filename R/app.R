@@ -77,7 +77,22 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               )#end of the tabpanel
                            #mainPanel ends
                            
-                           )# tabpanel end
+                           ), # tabpanel end
+                  tabPanel("Make Codons",
+                           sidebarPanel(
+                             tags$h3("Input:"),
+                             textInput("mk_codons_dna", "DNA Sequence:", "AUG..."),
+                             textInput("mk_codons_start", "Start Position:", 1),
+                           ), # sidebarPanel
+                           mainPanel(
+                             h1("Results"),
+                             
+                             h4("Codons: "),
+                             verbatimTextOutput("mk_codons"),
+                             
+                           ) # mainPanel
+                           
+                  ) # Navbar 3, tabPanel
                 ) # navbarPage end
 
 
@@ -92,11 +107,12 @@ server <- function(input, output) {
     })
   
   output$compl <- renderText({
-    lookup <- c("A" = "T", "T" = "A", "G" = "C", "C" = "G")
+    lookup <- c("A" = "T", "T" = "A", "G" = "C", "C" = "G", "a" = "T", "t" = "A", "g" = "C", "c" = "G")
     dna_split <- strsplit(input$dna, "")[[1]]
     dna_complement <- paste0(lookup[dna_split], collapse = "")
   })
   
+<<<<<<< HEAD
   ### Generate random DNA
   observeEvent(input$genDNA,{
     updateTextAreaInput(inputId="dna_input",
@@ -129,10 +145,20 @@ server <- function(input, output) {
   output$AA <- renderText(dna_codons_to_aa(codons()))
   
   
+=======
+  output$mk_codons <- renderText({
+    s = as.integer(input$mk_codons_start)
+    l = nchar(input$mk_codons_dna)
+    codons <- substring(input$mk_codons_dna,
+                        first = seq(from = s, to = l-3+1, by=3),
+                        last = seq(from = 3+s-1, to = l, by=3))
+    return(codons)
+  })
+  
+>>>>>>> a0b3b29a8e1b473183cd3948342e1f35d5fb66e1
 } #server end
 
 
 # Create Shiny object
 shinyApp(ui = ui, server = server)
-
 
