@@ -1,0 +1,54 @@
+---
+title: "shiny app"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r cars,  echo = FALSE}
+# Load R packages
+library(shiny)
+library(shinythemes)
+
+# Define UI
+ui <- fluidPage(theme = shinytheme("cerulean"),
+                navbarPage(
+                  "Group 9 Shiny App",
+                  tabPanel("Navbar 1", "This panel is intentionally left blank"),
+                  tabPanel("Navbar 2", "This panel is intentionally left blank"),
+                  tabPanel("Make Codons",
+                           sidebarPanel(
+                             tags$h3("Input:"),
+                             textInput("dna", "DNA Sequence:", "AUG..."),
+                             textInput("start", "Start Position:", 1),
+                           ), # sidebarPanel
+                           mainPanel(
+                             h1("Results"),
+                             
+                             h4("Codons: "),
+                             verbatimTextOutput("txtout"),
+                             
+                           ) # mainPanel
+                           
+                  ) # Navbar 1, tabPanel
+                ) # navbarPage
+) # fluidPage
+
+# Define server function  
+server <- function(input, output) {
+  output$txtout <- renderText({
+    s = as.integer(input$start)
+    l = nchar(input$dna)
+    codons <- substring(input$dna,
+                        first = seq(from = s, to = l-3+1, by=3),
+                        last = seq(from = 3+s-1, to = l, by=3))
+    return(codons)
+    })
+} # server
+
+
+# Create Shiny object
+shinyApp(ui = ui, server = server)
+```
