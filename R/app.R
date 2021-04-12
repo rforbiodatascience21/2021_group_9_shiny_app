@@ -1,7 +1,14 @@
 # Load R packages
+
+if (!"2021_group_09_rpackage" %in% rownames(installed.packages())){
+  library(devtools)
+  install_github("rforbiodatascience21/2021_group_09_rpackage")
+}
+library(lab08aSimpleRpackage)
 library(shiny)
 library(shinythemes)
 library(tidyverse)
+
 
 
 # Define UI
