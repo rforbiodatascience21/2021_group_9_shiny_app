@@ -80,17 +80,18 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                            sidebarPanel(
                              tags$h3("Input:"),
                              textInput("mk_codons_dna", "DNA Sequence:", "AUG..."),
-                             textInput("mk_codons_start", "Start Position:", 1)
+                             textInput("mk_codons_start", "Reading Frame:", 1)
                            ), # sidebarPanel
                            mainPanel(
-                             h1("Results"),
+                             h1("Description"),
+                             "This function can split a DNA string into codons. Insert your DNA sequence and specify the reading frame (1,2,3).",
                              
                              h4("Codons: "),
                              verbatimTextOutput("mk_codons")
                              
                            ) # mainPanel
                            
-                  ) # Navbar 3, tabPanel
+                  ) 
                 )
               ) # navbarPage end
 
