@@ -44,7 +44,22 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                              textOutput("compl")
                            ) #mainPanel ends
                            
-                           )# tabpanel end
+                           ), # tabpanel end
+                  tabPanel("Make Codons",
+                           sidebarPanel(
+                             tags$h3("Input:"),
+                             textInput("mk_codons_dna", "DNA Sequence:", "AUG..."),
+                             textInput("mk_codons_start", "Start Position:", 1),
+                           ), # sidebarPanel
+                           mainPanel(
+                             h1("Results"),
+                             
+                             h4("Codons: "),
+                             verbatimTextOutput("mk_codons"),
+                             
+                           ) # mainPanel
+                           
+                  ) # Navbar 3, tabPanel
                 ) # navbarPage end
 ) # fluidPage end
 
@@ -63,6 +78,15 @@ server <- function(input, output) {
     dna_split <- strsplit(input$dna, "")[[1]]
     dna_complement <- paste0(lookup[dna_split], collapse = "")
   })
+  output$mk_codons <- renderText({
+    s = as.integer(input$mk_codons_start)
+    l = nchar(input$mk_codons_dna)
+    codons <- substring(input$mk_codons_dna,
+                        first = seq(from = s, to = l-3+1, by=3),
+                        last = seq(from = 3+s-1, to = l, by=3))
+    return(codons)
+  })
+  
 } #server end
 
 
