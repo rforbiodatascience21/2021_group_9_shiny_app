@@ -59,7 +59,7 @@ server <- function(input, output) {
     })
   
   output$compl <- renderText({
-    lookup <- c("A" = "T", "T" = "A", "G" = "C", "C" = "G")
+    lookup <- c("A" = "T", "T" = "A", "G" = "C", "C" = "G", "a" = "T", "t" = "A", "g" = "C", "c" = "G")
     dna_split <- strsplit(input$dna, "")[[1]]
     dna_complement <- paste0(lookup[dna_split], collapse = "")
   })
